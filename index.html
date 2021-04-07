@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Calendar API Quickstart</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <p>Google Calendar API Quickstart</p>
+
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button id="authorize_button" style="display: none;">Authorize</button>
+    <button id="signout_button" style="display: none;">Sign Out</button>
+
+	<form method="POST" action="/cgi/index.py" id="form">
+		Batch ID:</br />
+		<input type="number" name="batch_id" /></br />
+		Intranet cookie (_holberton_intranet_session):<br />
+		<textarea name="intranet_session"></textarea><br />
+		<input type="submit" value="Get the Calendar" />
+	</form>
+    <pre id="content" style="white-space: pre-wrap;"></pre>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="init.js"></script>
+    <script type="text/javascript" src="calendar_api_init.js"></script>
+
+    <script async defer src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+  </body>
+</html>
