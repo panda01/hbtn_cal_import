@@ -1,0 +1,25 @@
+.hbtn-table {
+	max-width: 1024px;
+	border: 1px solid #333;
+	.row {
+		border-top: 1px solid #eee;
+		display: flex;
+		width: 100%;
+		&.header {
+			font-weight: bold;
+		}
+		+ .row {
+			margin-top: 5px;
+		}
+		.col {
+			flex-shrink: 0;
+			flex-basis: 50px;
+			&.big {
+				flex-basis: 500px;
+			}
+			&.med {
+				flex-basis: 200px;
+			}
+		}
+	}
+}

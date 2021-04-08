@@ -1,5 +1,8 @@
 (function() {
 	$(document).ready(function() {
+		$("#clear_calendar").click(function() {
+			clearAllEvents();
+		});
 	// when the form submits
 		$("#form").submit(function(evt) {
 			const batch_id = $(this).find('[name="batch_id"]').val();
@@ -27,6 +30,8 @@
 					item.moment_end_date = moment(item.end_date, "DD-MM-YYYY HH:mm");
 
 					if(item.type === "peer_learning_day") {
+						item.moment_start_date.hour(9);
+						item.moment_end_date.hour(15).subtract(1, 'day');
 						plds.push(item);
 						return;
 					}
@@ -47,7 +52,11 @@
 						return;
 					}
 				});
-				window.hbtnInitTable(projects);
+				window.hbtnInitTable(plds);
+				makeIterator(plds, addEventsToCalendar);
+				plds.forEach(function (pld) {
+					window.addEventsToCalendar(pld);
+				});
 			});
 		});
 		$("#calendar_button").click(function(evt) {

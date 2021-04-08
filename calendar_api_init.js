@@ -7,7 +7,7 @@ var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
+var SCOPES = "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events";
 
 var authorizeButton = document.getElementById('authorize_button');
 var signoutButton = document.getElementById('signout_button');
@@ -89,12 +89,13 @@ function appendPre(message) {
  * appropriate message is printed.
  */
 function listUpcomingEvents() {
+	const calendarId = "c_ea7a4nfaf66c1su26tbbgs1co0@group.calendar.google.com";
 	gapi.client.calendar.events.list({
-		'calendarId': 'primary',
+		'calendarId': calendarId,
 		'timeMin': (new Date()).toISOString(),
 		'showDeleted': false,
 		'singleEvents': true,
-		'maxResults': 10,
+		'maxResults': 250,
 		'orderBy': 'startTime'
 	}).then(function(response) {
 		var events = response.result.items;
@@ -115,6 +116,46 @@ function listUpcomingEvents() {
 	});
 }
 
+/**
+ * Print the summary and start datetime/date of the next ten events in
+ * the authorized user's calendar. If no events are found an
+ * appropriate message is printed.
+ */
+function clearAllEvents() {
+	const calendarId = "c_ea7a4nfaf66c1su26tbbgs1co0@group.calendar.google.com";
+	gapi.client.calendar.events.list({
+		'calendarId': calendarId,
+		'timeMin': (new Date()).toISOString(),
+		'showDeleted': false,
+		'singleEvents': true,
+		'maxResults': 250,
+		'orderBy': 'startTime'
+	}).then(function(response) {
+		var events = response.result.items;
+		makeIterator(events, function(evt) {
+			return gapi.client.calendar.events.delete({
+				calendarId: calendarId,
+				eventId: evt.id
+			});
+		});
+	});
+}
+
+function makeIterator(events, callback) {
+
+	let idx = 0;
+	const iterator = function () {
+		if(idx >= events.length) {
+			return;
+		}
+		callback(events[idx++])
+			.execute(function() {
+				iterator();
+			});
+	};
+	iterator();
+}
+
 function listAllCalendars() {
 	gapi.client.calendar.calendarList.list().then(function(resp) {
 		const calendarsList = resp.result.items;
@@ -122,9 +163,22 @@ function listAllCalendars() {
 	});
 }
 
-function addEventsToCalendar() {
+function addEventsToCalendar(evtObj) {
 	const calendarId = "c_ea7a4nfaf66c1su26tbbgs1co0@group.calendar.google.com";
 	const eventDataObj = {
+		summary: evtObj.text,
+		description: "Just a reminder of when projects start",
+		start: {
+			dateTime: evtObj.moment_start_date.format(),
+			timeZone: 'America/Puerto_Rico'
+		},
+		end: {
+			dateTime: evtObj.moment_end_date.format(),
+			timeZone: 'America/Puerto_Rico'
+		}
 	};
-	// gapi.client.calendar.events.insert
+	return gapi.client.calendar.events.insert({
+		'calendarId': calendarId,
+		'resource': eventDataObj
+	});
 }
