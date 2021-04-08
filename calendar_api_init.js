@@ -115,3 +115,16 @@ function listUpcomingEvents() {
 	});
 }
 
+function listAllCalendars() {
+	gapi.client.calendar.calendarList.list().then(function(resp) {
+		const calendarsList = resp.result.items;
+		debugger;
+	});
+}
+
+function addEventsToCalendar() {
+	const calendarId = "c_ea7a4nfaf66c1su26tbbgs1co0@group.calendar.google.com";
+	const eventDataObj = {
+	};
+	// gapi.client.calendar.events.insert
+}

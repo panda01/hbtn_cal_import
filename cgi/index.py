@@ -26,7 +26,7 @@ def fetchData(batch, startdate, cookies):
 
     response = requests.get('https://intranet.hbtn.io//dashboards/master_planning_data.json', headers=headers, params=params, cookies=cookies, verify=False)
 
-    return  json.loads(response.text)
+    return  response.text
 
 
 
@@ -37,9 +37,8 @@ print("Content-Type: application/json\n")
 
 
 formobj = cgi.FieldStorage()
-
 cookie = {"_holberton_intranet_session": formobj["intranet_session"].value}
 calendar_data = fetchData(formobj["batch_id"].value, None, cookie)
 
-print(json.dumps(calendar_data))
+print(calendar_data)
 
