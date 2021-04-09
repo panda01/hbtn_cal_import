@@ -53,7 +53,7 @@
 					}
 				});
 				window.hbtnInitTable(plds);
-				makeIterator(plds, addEventsToCalendar);
+				makeIterator(plds, addEventsToCalendar, listUpcomingEvents);
 				plds.forEach(function (pld) {
 					window.addEventsToCalendar(pld);
 				});

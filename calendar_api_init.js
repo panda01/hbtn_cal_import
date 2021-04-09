@@ -90,6 +90,7 @@ function appendPre(message) {
  */
 function listUpcomingEvents() {
 	const calendarId = "c_ea7a4nfaf66c1su26tbbgs1co0@group.calendar.google.com";
+	document.getElementById('content').innerHTML = "Loading new events";
 	gapi.client.calendar.events.list({
 		'calendarId': calendarId,
 		'timeMin': (new Date()).toISOString(),
@@ -99,6 +100,7 @@ function listUpcomingEvents() {
 		'orderBy': 'startTime'
 	}).then(function(response) {
 		var events = response.result.items;
+		document.getElementById('content').innerHTML = "";
 		appendPre('Upcoming events:');
 
 		if (events.length > 0) {
@@ -137,15 +139,16 @@ function clearAllEvents() {
 				calendarId: calendarId,
 				eventId: evt.id
 			});
-		});
+		}, listUpcomingEvents);
 	});
 }
 
-function makeIterator(events, callback) {
+function makeIterator(events, callback, endfn) {
 
 	let idx = 0;
 	const iterator = function () {
 		if(idx >= events.length) {
+			endfn();
 			return;
 		}
 		callback(events[idx++])
@@ -165,9 +168,17 @@ function listAllCalendars() {
 
 function addEventsToCalendar(evtObj) {
 	const calendarId = "c_ea7a4nfaf66c1su26tbbgs1co0@group.calendar.google.com";
+	let desc;
+	switch(evtObj.type) {
+		case "peer_learning_day":
+			desc =  "Please join our PLD at https://meet.google.com/nui-bnaa-fjh";
+			break;
+		default:
+			desc =  "Just a reminder of when projects start";
+	}
 	const eventDataObj = {
 		summary: evtObj.text,
-		description: "Just a reminder of when projects start",
+		description: desc,
 		start: {
 			dateTime: evtObj.moment_start_date.format(),
 			timeZone: 'America/Puerto_Rico'
