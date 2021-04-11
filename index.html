@@ -9,22 +9,35 @@
 		<div id="react_container">
 		</div>
 		<h1>Holberton Calendar Import</h1>
-		<h2>Form to get your calendar from Holberton</h2>
-		<form method="POST" action="/cgi/index.py" id="form">
-			Batch ID:</br />
-			<input type="number" name="batch_id" /></br />
-			Intranet cookie (_holberton_intranet_session):<br />
-			<textarea name="intranet_session"></textarea><br />
-			<input type="submit" value="Get your hbtn Calendar" />
-		</form>
-		<input type="submit" value="Clear current calendar" id="clear_calendar" />
-		<h2>Google Calendar section</h2>
-		<input type="button" value="get calendars" id="calendar_button"/>
-		<p>Google Calendar API Quickstart</p>
-		<!--Add buttons to initiate auth sequence and sign out-->
-		<button id="authorize_button" style="display: none;">Authorize</button>
-		<button id="signout_button" style="display: none;">Sign Out</button>
-		<pre id="content" style="white-space: pre-wrap;"></pre>
+		<section>
+			<h2>Step 1: Get your calendar from HBTN</h2>
+			<form method="POST" action="/cgi/index.py" id="form">
+				Batch ID:</br />
+				<input type="number" name="batch_id" /></br />
+				Intranet cookie (_holberton_intranet_session):<br />
+				<textarea name="intranet_session"></textarea><br />
+				<input type="submit" value="Get your hbtn Calendar" />
+			</form>
+		</section>
+		<input type="submit" value="Clear Google cal" id="clear_calendar" />
+		<section>
+			<h2>Step 2: Google Calendar Auth</h2>
+			<input type="button" value="get calendars" id="calendar_button"/>
+			<p>Google Calendar API Quickstart</p>
+			<!--Add buttons to initiate auth sequence and sign out-->
+			<button id="authorize_button" style="display: none;">Authorize</button>
+			<button id="signout_button" style="display: none;">Sign Out</button>
+			<pre id="content" style="white-space: pre-wrap;"></pre>
+		</section>
+		<section>
+			<h2>Step 3: Add events to Calendar</h2>
+			<div id="step_3_cont"></div>
+		</section>
+
+
+
+
+
 
 		<!-- Libraries -->
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

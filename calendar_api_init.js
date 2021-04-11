@@ -35,6 +35,9 @@ function initClient() {
 
 		// Handle the initial sign-in state.
 		updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+
+		// go and get the calendars
+		listAllCalendars();
 		authorizeButton.onclick = handleAuthClick;
 		signoutButton.onclick = handleSignoutClick;
 	}, function(error) {
@@ -162,7 +165,7 @@ function makeIterator(events, callback, endfn) {
 function listAllCalendars() {
 	gapi.client.calendar.calendarList.list().then(function(resp) {
 		const calendarsList = resp.result.items;
-		debugger;
+		window.hbtn.loadCalendarSelect(calendarsList);
 	});
 }
 

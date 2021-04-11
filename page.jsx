@@ -30,14 +30,39 @@
 					<div class="col">Title</div>
 					<div class="col">Start Date</div>
 				</div>;
-			return (<div className="hbtn-table">{rows}</div>);
+			return (<div className="hbtn-table">{tableHeader}{rows}</div>);
+		}
+	}
+	class Select extends React.Component {
+		constructor(props) {
+			super(props);
+			this.state = {};
+		}
+		render() {
+			const rows = this.props.options.map(function(item, idx) {
+				return (<option value={item.value}>{item.text}</option>);
+			});
+			return (<select className="hbtn-table">{rows}</select>);
 		}
 	}
 
+	function loadAllCalendarSelects(calendarList) {
+		const events = calendarList.map(function(item, idx) {
+			return {
+				value: item.id,
+				text: item.summary
+			};
+		});
+		const domContainer = document.querySelector('#step_3_cont');
+		ReactDOM.render(<Select options={events} />, domContainer);
+	}
 
 	function initTable(events) {
 		const domContainer = document.querySelector('#react_container');
 		ReactDOM.render(<HbtnEvents events={events} />, domContainer);
 	}
-	window.hbtnInitTable = initTable;
+	window.hbtn = {
+		initTable: initTable,
+		loadCalendarSelect: loadAllCalendarSelects
+	}
 }());

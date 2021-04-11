@@ -52,7 +52,7 @@
 						return;
 					}
 				});
-				window.hbtnInitTable(plds);
+				window.hbtn.initTable(plds);
 				makeIterator(plds, addEventsToCalendar, listUpcomingEvents);
 				plds.forEach(function (pld) {
 					window.addEventsToCalendar(pld);
