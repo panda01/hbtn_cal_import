@@ -1,4 +1,10 @@
+textarea {
+	width: 400px;
+	height: 200px;
+}
 .hbtn-table {
+	max-height: 350px;
+	overflow-y: scroll;
 	max-width: 1024px;
 	border: 1px solid #333;
 	.row {

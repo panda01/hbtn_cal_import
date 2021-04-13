@@ -36,8 +36,6 @@ function initClient() {
 		// Handle the initial sign-in state.
 		updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
 
-		// go and get the calendars
-		listAllCalendars();
 		authorizeButton.onclick = handleAuthClick;
 		signoutButton.onclick = handleSignoutClick;
 	}, function(error) {
@@ -53,7 +51,8 @@ function updateSigninStatus(isSignedIn) {
 	if (isSignedIn) {
 		authorizeButton.style.display = 'none';
 		signoutButton.style.display = 'block';
-		listUpcomingEvents();
+		// go and get the calendars
+		listAllCalendars();
 	} else {
 		authorizeButton.style.display = 'block';
 		signoutButton.style.display = 'none';
@@ -92,7 +91,7 @@ function appendPre(message) {
  * appropriate message is printed.
  */
 function listUpcomingEvents() {
-	const calendarId = "c_ea7a4nfaf66c1su26tbbgs1co0@group.calendar.google.com";
+	const calendarId = getCurrSelectedCalId();
 	document.getElementById('content').innerHTML = "Loading new events";
 	gapi.client.calendar.events.list({
 		'calendarId': calendarId,
@@ -113,7 +112,7 @@ function listUpcomingEvents() {
 				if (!when) {
 					when = event.start.date;
 				}
-				appendPre(event.summary + ' (' + when + ')')
+				appendPre(event.summary + ' (' + when + ')');
 			}
 		} else {
 			appendPre('No upcoming events found.');
@@ -127,7 +126,7 @@ function listUpcomingEvents() {
  * appropriate message is printed.
  */
 function clearAllEvents() {
-	const calendarId = "c_ea7a4nfaf66c1su26tbbgs1co0@group.calendar.google.com";
+	const calendarId = getCurrSelectedCalId();
 	gapi.client.calendar.events.list({
 		'calendarId': calendarId,
 		'timeMin': (new Date()).toISOString(),
@@ -168,10 +167,13 @@ function listAllCalendars() {
 		window.hbtn.loadCalendarSelect(calendarsList);
 	});
 }
+function getCurrSelectedCalId() {
+	return $('#step_3_cont select').val();
+}
 
 function addEventsToCalendar(evtObj) {
-	const calendarId = "c_ea7a4nfaf66c1su26tbbgs1co0@group.calendar.google.com";
-	let desc;
+	const desc = $("#pld_message").val();
+	/*
 	switch(evtObj.type) {
 		case "peer_learning_day":
 			desc =  "Please join our PLD at https://meet.google.com/nui-bnaa-fjh";
@@ -179,8 +181,9 @@ function addEventsToCalendar(evtObj) {
 		default:
 			desc =  "Just a reminder of when projects start";
 	}
+	*/
 	const eventDataObj = {
-		summary: evtObj.text,
+		summary: "PLD - " + evtObj.text,
 		description: desc,
 		start: {
 			dateTime: evtObj.moment_start_date.format(),
@@ -192,7 +195,7 @@ function addEventsToCalendar(evtObj) {
 		}
 	};
 	return gapi.client.calendar.events.insert({
-		'calendarId': calendarId,
+		'calendarId': getCurrSelectedCalId(),
 		'resource': eventDataObj
 	});
 }

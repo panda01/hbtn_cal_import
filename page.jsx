@@ -8,7 +8,7 @@
 			};
 		}
 		render() {
-			const rows = this.props.events.slice(0, 10).map(function(item, idx) {
+			const rows = this.props.events.map(function(item, idx) {
 				return (<div key={item.id} className="row">
 					<div className="col">
 						<input type="checkbox" name="events" value={item.id} />
@@ -18,17 +18,17 @@
 					<div className="col med">{item.start_date}</div>
 					</div>);
 			});
-			const tableHeader = <div className="row header">
-					<div class="col">
+			const tableHeader = <div key={-1} className="row header">
+					<div className="col">
 						Check All
 						<input
 							type="checkbox"
 							name="events"
 							value="" />
 					</div>
-					<div class="col">ID</div>
-					<div class="col">Title</div>
-					<div class="col">Start Date</div>
+					<div className="col med">ID</div>
+					<div className="col big">Title</div>
+					<div className="col med">Start Date</div>
 				</div>;
 			return (<div className="hbtn-table">{tableHeader}{rows}</div>);
 		}

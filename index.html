@@ -13,7 +13,6 @@
 			<!--Add buttons to initiate auth sequence and sign out-->
 			<button id="authorize_button" style="display: none;">Authorize</button>
 			<button id="signout_button" style="display: none;">Sign Out</button>
-			<pre id="content" style="white-space: pre-wrap;"></pre>
 		</section>
 		<section step="2">
 			<h2>Step 2: Get your calendar from HBTN</h2>
@@ -29,9 +28,16 @@
 		</section>
 		<section step="3">
 			<h2>Step 3: Add events to Calendar</h2>
+			Text to add to PLD
+			<br />
+			<textarea id="pld_message"></textarea>
+			<br />
 			<div id="step_3_cont"></div>
-			<input type="submit" value="Add HBTN events to gCal" id="add_events" />
+			<input type="submit" value="Add PLD events to gCal" id="add_events" />
 			<input type="submit" value="Clear Google cal" id="clear_calendar" />
+			<input type="submit" value="list upcoming events" id="list_upcoming_events" />
+
+			<pre id="content" style="white-space: pre-wrap;"></pre>
 		</section>
 
 
@@ -44,13 +50,16 @@
 		<script type="text/javascript" src="https://momentjs.com/downloads/moment.min.js"></script>
 		<script type="text/javascript" src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
 		<script type="text/javascript" src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-		<script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
-		<script type="text/javascript" src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+		<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
 
 		<script type="text/babel" src="page.jsx"></script>
-		<script type="text/javascript" src="calendar_api_init.js"></script>
 		<script type="text/javascript" src="init.js"></script>
+		<script type="text/javascript" src="calendar_api_init.js"></script>
 
+		<script async defer src="https://apis.google.com/js/api.js"
+							onload="this.onload=function(){};handleClientLoad()"
+							onreadystatechange="if (this.readyState === 'complete') this.onload()">
+		</script>
 	</body>
 </html>

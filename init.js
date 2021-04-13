@@ -1,4 +1,9 @@
 (function() {
+	const plds = [];
+	const projects = [];
+	const evaluationquizes = [];
+	const npss = [];
+	const refineries = [];
 	function init() {
 		if(!window.hbtn) {
 			window.hbtn = {};
@@ -10,21 +15,22 @@
 		$("#clear_calendar").click(function() {
 			clearAllEvents();
 		});
-	// when the form submits
+		// when the form submits
 		$("#form").submit(function(evt) {
 			const batch_id = $(this).find('[name="batch_id"]').val();
 			const intranet_session = $(this).find('[name="intranet_session"]').val();
 			evt.preventDefault();
 			evt.stopPropagation();
+			// clear all of our arrays?
+			plds.length = 0;
+			projects.length = 0;
+			evaluationquizes.length = 0;
+			npss.length = 0;
+			refineries.length = 0;
 
 			$.getJSON("/cgi/index.py", {batch_id: batch_id, intranet_session: intranet_session}, function(data) {
 				// take events add them to the calendar
 				const all_events = data.data;
-				const plds = [];
-				const projects = [];
-				const evaluationquizes = [];
-				const npss = [];
-				const refineries = [];
 				const now = moment();
 				all_events.forEach(function(item, idx) {
 					const mItemStartTime = moment(item.start_date, "DD-MM-YYYY HH:mm");
@@ -61,19 +67,18 @@
 				});
 
 				window.hbtn.initTable(plds);
+				window.hbtn.lists = {
+					plds: plds,
+
+				}
 			});
 		});
+		$("#list_upcoming_events").click(function(evt) {
+			listUpcomingEvents();
+		});
 		$("#add_events").click(function(evt) {
-			// get which calendar we're adding it to
-			const calenederIDToAddEventsTo = $('#step_3_cont select').val();
-			// get the items we're adding.
-			const itemsToAddList = [];
-			// get any text they want to add for PLDs (Later any)
 			// add all the events proper
 			makeIterator(plds, addEventsToCalendar, listUpcomingEvents);
-		});
-		$("#calendar_button").click(function(evt) {
-			listAllCalendars();
 		});
 	}
 	$(document).ready(init);
