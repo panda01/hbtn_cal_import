@@ -1,5 +1,12 @@
 (function() {
-	$(document).ready(function() {
+	function init() {
+		if(!window.hbtn) {
+			window.hbtn = {};
+		}
+		handleClientLoad();
+		initEvents();
+	}
+	function initEvents() {
 		$("#clear_calendar").click(function() {
 			clearAllEvents();
 		});
@@ -52,15 +59,22 @@
 						return;
 					}
 				});
+
 				window.hbtn.initTable(plds);
-				makeIterator(plds, addEventsToCalendar, listUpcomingEvents);
-				plds.forEach(function (pld) {
-					window.addEventsToCalendar(pld);
-				});
 			});
+		});
+		$("#add_events").click(function(evt) {
+			// get which calendar we're adding it to
+			const calenederIDToAddEventsTo = $('#step_3_cont select').val();
+			// get the items we're adding.
+			const itemsToAddList = [];
+			// get any text they want to add for PLDs (Later any)
+			// add all the events proper
+			makeIterator(plds, addEventsToCalendar, listUpcomingEvents);
 		});
 		$("#calendar_button").click(function(evt) {
 			listAllCalendars();
 		});
-	});
+	}
+	$(document).ready(init);
 }());

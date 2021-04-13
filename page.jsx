@@ -61,8 +61,9 @@
 		const domContainer = document.querySelector('#react_container');
 		ReactDOM.render(<HbtnEvents events={events} />, domContainer);
 	}
-	window.hbtn = {
-		initTable: initTable,
-		loadCalendarSelect: loadAllCalendarSelects
+	if(!window.hbtn) {
+		window.hbtn = {};
 	}
+	window.hbtn.initTable = initTable;
+	window.hbtn.loadCalendarSelect = loadAllCalendarSelects;
 }());
